@@ -227,7 +227,27 @@ int sigLex()
 		return Buscar("eof");
 	}
 }
-
+int consLex()
+{
+	char c=0;	
+	while((c=fgetc(archivo))!=EOF)
+	{
+		if (c==' ' || c=='\t')
+			continue;	//eliminar espacios en blanco
+		else if(c=='\n')
+		{
+			//incrementar el numero de linea
+			//numLinea++;
+			printf("\n");
+			return -1;
+		}
+		else if (c==EOF)
+		{
+			return Buscar("eof");
+		}
+	}
+}
+	
 int main(int argc,char* args[])
 {
 	CerarTabla();
@@ -245,6 +265,7 @@ int main(int argc,char* args[])
 			ex = sigLex();
 			if(tabla[ex].posi == 0){
 				printf("%s ",msg);
+				consLex();
 			}
 			else{
 				printf("%s ", tabla[ex].d_lex);
