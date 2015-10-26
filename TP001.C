@@ -23,7 +23,7 @@ int sigLex()
 		else if(c=='\n')
 		{
 			//incrementar el numero de linea
-			//numLinea++;
+			numLinea++;
 			printf("\n");
 			continue;
 		}
@@ -49,7 +49,7 @@ int sigLex()
 			/*char *tmpid = ;*/
 			Minuscula(id);
 /*			printf("%s ",id);*/
-			return Buscar(id);
+			return Buscar(id,id);
 			break;
 		}
 		else if (isdigit(c))
@@ -171,7 +171,7 @@ int sigLex()
 						c=0;
 					id[++i]='\0';
 					acepto=1;
-					return Buscar("number");
+					return Buscar("number",id);
 					break;
 				case -1:
 					if (c==EOF)
@@ -179,7 +179,7 @@ int sigLex()
 					else
 					{
 /*						strcpy(msg, "Error: <numerico> no valido");*/
-						return Buscar("error");
+						return Buscar("error","");
 					}
 /*						strcpy(msg, "Error: <numerico> no valido");*/
 					exit(1);
@@ -191,7 +191,7 @@ int sigLex()
 		{
 			id[0]=c;
 			c=0;
-			return Buscar(id);
+			return Buscar(id,id);
 			break;
 		}
 		else if (c=='"')
@@ -207,24 +207,24 @@ int sigLex()
 			if (c == '"')
 			{
 				c=0;
-				return Buscar("string");
+				return Buscar("string",id);
 				break;
 			}
 			else
 			{
 				strcpy(msg,"Error: <String> termina inapropiadamente");
-				return Buscar("error");
+				return Buscar("error","");
 				break;
 			}
 		}
 		else{
 			sprintf(msg,"%c no esperado",c);
-			return Buscar("error");
+			return Buscar("error","");
 		}
 	}
 	if (c == EOF)
 	{
-		return Buscar("eof");
+		return Buscar("eof","eof");
 	}
 }
 int consLex()
@@ -243,7 +243,7 @@ int consLex()
 		}
 		else if (c==EOF)
 		{
-			return Buscar("eof");
+			return Buscar("eof","eof");
 		}
 	}
 }
@@ -272,6 +272,8 @@ int main(int argc,char* args[])
 			}
 		}
 		fclose(archivo);
+		RevisarLexemas();
+		printf("llego aqui");
 	}else{
 		printf("Debe pasar como parametro el path al archivo fuente.\n");
 		exit(1);
